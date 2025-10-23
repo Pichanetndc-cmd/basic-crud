@@ -7,7 +7,7 @@
     "build": "next build && prisma generate",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "cd packages/database && turbo run prisma:generate && mkdir -p ../../node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/@prisma/client && cp ../../node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node ../../node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/@prisma/client/"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.17.1",
