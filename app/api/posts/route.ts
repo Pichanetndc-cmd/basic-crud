@@ -1,15 +1,24 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-// GET all posts
 export async function GET() {
-  const posts = await prisma.post.findMany();
-  return NextResponse.json(posts);
+  try {
+    const posts = await prisma.post.findMany({ orderBy: { id: "desc" } });
+    return NextResponse.json(posts);
+  } catch (e: any) {
+    return NextResponse.json({ error: "Failed to load posts", detail: e.message }, { status: 500 });
+  }
 }
 
-// CREATE a post
 export async function POST(req: Request) {
-  const { title, content } = await req.json();
-  const post = await prisma.post.create({ data: { title, content } });
-  return NextResponse.json(post);
+  try {
+    const { title, content } = await req.json();
+    if (!title) {
+      return NextResponse.json({ error: "Title is required" }, { status: 400 });
+    }
+    const post = await prisma.post.create({ data: { title, content } });
+    return NextResponse.json(post, { status: 201 });
+  } catch (e: any) {
+    return NextResponse.json({ error: "Failed to create", detail: e.message }, { status: 500 });
+  }
 }
