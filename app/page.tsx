@@ -10,11 +10,11 @@ export default function Home() {
   const [content, setContent] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  async function loadPosts() {
-    const res = await fetch("/api/posts");
-    const data = await res.json();
-    setPosts(data);
-  }
+async function loadPosts() {
+  const res = await fetch("/api/posts");
+  const data = await res.json();
+  setPosts(Array.isArray(data) ? data : []); // ❌ ป้องกัน error
+}
 
   async function createPost() {
     await fetch("/api/posts", {
@@ -155,7 +155,8 @@ export default function Home() {
         transition-all duration-300 hover:shadow-[0_0_60px_rgba(255,255,255,0.6)]"
         >
           <ul className="bg-white/50 w-full p-6 rounded-3xl border-white border-2 shadow-lg shadow-white/20">
-            {posts.map((p) => (
+            {Array.isArray(posts) ? (
+    posts.map((p) => (
               <li
                 key={p.id}
                 className="border-b py-4 flex justify-between items-start pl-4 mb-4"
@@ -167,22 +168,22 @@ export default function Home() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => editPost(p.id)}
-                    className="text-white border border-white rounded-full w-9 h-9 flex items-center justify-center 
-        font-semibold hover:bg-white hover:text-[#35375a] transition duration-200 cursor-pointer"
+                    className="text-white border border-white rounded-full w-9 h-9 flex items-center justify-center font-semibold hover:bg-white hover:text-[#35375a] transition duration-200 cursor-pointer"
                   >
                     E
                   </button>
 
                   <button
                     onClick={() => deletePost(p.id)}
-                    className="text-white border border-white rounded-full w-9 h-9 flex items-center justify-center 
-        font-semibold hover:bg-white hover:text-[#35375a] transition duration-200 cursor-pointer"
+                    className="text-white border border-white rounded-full w-9 h-9 flex items-center justify-center font-semibold hover:bg-white hover:text-[#35375a] transition duration-200 cursor-pointer"
                   >
                     X
                   </button>
                 </div>
               </li>
-            ))}
+            ))) : (
+    <li className="text-red-500">Failed to load posts</li>
+  )}
           </ul>
         </div>
       </div>
