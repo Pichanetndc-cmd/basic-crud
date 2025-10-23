@@ -22,3 +22,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed to create", detail: e.message }, { status: 500 });
   }
 }
+
+export const runtime = 'nodejs'
