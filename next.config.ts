@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import { withPrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin';
 
-const nextConfig: NextConfig = {
- serverExternalPackages: ['@prisma/client', 'prisma'],
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
+  },
 };
 
-export default nextConfig;
+export default withPrismaPlugin(nextConfig);

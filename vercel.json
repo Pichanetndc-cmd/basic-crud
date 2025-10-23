@@ -1,7 +1,3 @@
 {
-  "functions": {
-    "app/**/route.{js,ts}": {
-      "includeFiles": "node_modules/.prisma/client/**"
-    }
-  }
+  "buildCommand": "prisma generate && next build"
 }
